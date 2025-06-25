@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from "react";
+import React, { useState,useEffect,useLayoutEffect} from "react";
 const Timer = (props) => {
   const [counter,setCounter] = useState(0);
     const {customText} = props; // destructuring props to get customText
@@ -41,6 +41,10 @@ const Timer = (props) => {
         }
     })
 
+    //we will use useLayoutEffect only when we want to run some calclulations before brower paints the screen 
+    useLayoutEffect(()=>{
+        console.log("use layout effect is running");
+    },[]); // this will run after the DOM is updated but before the browser has painted the changes to the screen
 
    return<>
        <span>Current time is : {counter}</span>
