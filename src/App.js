@@ -1,30 +1,23 @@
 import React, { useState } from "react";
 import Button from "./Button.jsx";
 import Text from "./Text.jsx";
+import { set } from "immutable";
 const App = () => { 
+    const [message,setMessage] = useState("hello user good morning");
 
-    const [data,setData] = useState([
-        {id:'a',text:"text 1"},
-        {id:'b',text:"text 2"},
-        {id:'c',text:"text 3"},
-        {id:'d',text:"text 4"},
-        {id:'e',text:"text 5"},
-    ]);
 
-  
-    const addMoreData = () => {
-        setData((prevData) =>{
-          return  [{id:'f',text:"text 6"},...prevData]
-        })
-    };  
 
-    
-
-    return <>
-        {
-            data.map(((item,index)=><Text key={item.id}>{item.text}</Text>))
-        }
-        <Button clickAction={addMoreData} >Add more data</Button>
-    </>
+    const changemessage = () => {
+        // setMessage("hello user good evening");
+        setMessage((prevMessage) => {
+            console.log(prevMessage);
+            return "hello user good evening";   
+        });//setMessage also have callback function . 
+    }   
+    console.log(message)
+   return<>
+        <div> {message}</div>
+        <button onClick={changemessage} > change message</button>
+   </> 
 }
 export default App;

@@ -11,7 +11,7 @@ const Button = (props) => {
 
   return (
     <button  onClick={()=> handleClick()}>{children}
-        +   {data?.a?.b?.c}
+         {data?.a?.b?.c}
     </button>
   )
 }
