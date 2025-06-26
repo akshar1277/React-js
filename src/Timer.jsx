@@ -1,10 +1,16 @@
-import React, { useState,useEffect,useLayoutEffect} from "react";
+import React, { useState,useEffect,useLayoutEffect,useRef} from "react";
 const Timer = (props) => {
-  const [counter,setCounter] = useState(0);
+    const [counter,setCounter] = useState(0);
     const {customText} = props; // destructuring props to get customText
+
+    const interval = useRef(null)
+
+    
+
+
     useEffect(() => {
         // setInterval returns an interval ID that can be used to clear the interval later
-        const interval =  setInterval(()=>{
+        interval.current =  setInterval(()=>{
             console.log("i am running ")//this will still run even if the component is unmounted because we are not implimentd cleanup funciton 
             setCounter((prevCounter) => prevCounter + 1);
             
@@ -13,7 +19,7 @@ const Timer = (props) => {
         return ()=>{
             console.log("i was unmounted ");
             console.log("clearing interval with id: ", interval);
-            clearInterval(interval); // this will stop the interval when the component is unmounted
+            clearInterval(interval.current); // this will stop the interval when the component is unmounted
             // if we don't clear the interval, it will keep running in the background and cause memory leaks
             // and also it will try to update the state of the unmounted component which will cause an error
             // so we need to clear the interval when the component is unmounted
@@ -27,29 +33,22 @@ const Timer = (props) => {
 
     }, []);
    
-    useEffect(() => {
-        // when you unmount the component return statment of every useeffect  will run for sure. even if its dependency array is empty . 
-        return ()=>{
-            console.log("cleaning up 2nd effect for customer Text");
-        }
-    },[customText]);
 
-    useEffect(() => {
-        console.log("i am randering again and again ")
-        return ()=>{
-            console.log("cleaning up 3rd effect for customer Text");
-        }
-    })
+    //now i want to do stop timer but how can i get interval id as it is in useEffect . 
+    const stopTimer=()=>{
+        console.log("stopping timer for id: ",interval.current)
+        clearInterval(interval.current)
 
-    //we will use useLayoutEffect only when we want to run some calclulations before brower paints the screen 
-    useLayoutEffect(()=>{
-        console.log("use layout effect is running");
-    },[]); // this will run after the DOM is updated but before the browser has painted the changes to the screen
+    }
+
+
 
    return<>
        <span>Current time is : {counter}</span>
        <br/>
        <span>{customText}</span>
+       <br/>
+       <button onClick={stopTimer}>Stop timer</button>
       
 
 
