@@ -7,23 +7,18 @@ import ButtonWithTooltip from "./ButtonWithTooltip.jsx";
 import Input from "./Input.jsx";
 import SecondParent from "./SecondParent.jsx";
 import PrintTable from "./PrintTable.jsx";
+import Heading from "./Heading.jsx";
+import Navbar from "./Navbar.jsx";
+import { ThemeContext } from "./context.jsx";
 
 const Text = lazy(()=>import('./Text.jsx'))
 
 const App = () => { 
-   const [showText,toogleText]= useState(false)
+    const [theme,setTheme] = useState('dark');
+   return<ThemeContext.Provider value={[theme,setTheme]}>
+    <Navbar/>
+    
 
-   return<>
-
-    <button onClick={()=>toogleText((prev)=>!prev)}>Toggle Text </button>
-    {
-        showText && 
-        <Suspense fallback={<div>I am loading </div>}>
-            <Text>Hello guys</Text>
-        </Suspense>
-      
-    }
-   
-   </> 
+   </ThemeContext.Provider> 
 }
 export default App;
