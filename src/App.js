@@ -1,5 +1,6 @@
 import React, { useState,useEffect,useRef,lazy,Suspense} from "react";
-
+import { useSelector,useDispatch } from "react-redux";
+import { increment ,decrement,incrementByAmount} from "./counterSlice.js";
 import Button from "./Button.jsx";
 // import Text from "./Text.jsx";
 import Timer from "./Timer.jsx";
@@ -16,13 +17,14 @@ import { createPortal } from "react-dom";
 const Text = lazy(()=>import('./Text.jsx'))
 
 const App = () => { 
-    const [showModel,toggleModel] = useState(false);
+   const count=useSelector((state)=>state.counter.counterValue)
+   const dispatch = useDispatch()
    return<>
-   Hey i am inside root 
-   <button onClick={()=>toggleModel((prev)=>!prev)}>Toggle Modal </button>
-   {
-    showModel && createPortal(<div>This is model contnet</div>,document.body)
-   }
+   {count}
+   <br/>
+   <button onClick={()=>dispatch(increment())}>Increment</button>
+   <button onClick={()=>dispatch(decrement())}>Decrement</button>
+   <button onClick={()=>dispatch(incrementByAmount(5))}>Inc by amount</button>
    </>
 }
 export default App;
